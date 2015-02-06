@@ -1,6 +1,8 @@
 # madweather
 A custom weather display for Madison, WI. Includes a radar loop, Lake Mendota windsurfing conditions, and webcams from the UW-Madison Department of AOS. Chromecast support coming soon.
 
+View it [here](http://seanmorton.github.io/madweather).
+
 ### Thanks to
 
 * [OpenWeatherMap](http://openweathermap.org) for the free weather API.
