@@ -29,17 +29,7 @@ function getCurrentConditions(lat, lon) {
   }); 
 }
 
-function cycleAOSCams() {
-  var cameras = ["north", "east", "south", "west", "northwest"];
-  var i = 0;
 
-  setInterval(function() {
-    url= "http://f5.aos.wisc.edu/webcam_movies/latest_" + cameras[i] + "_320x240.jpg"
-    $("#aos").attr("src", url);
-    i = (i + 1) % 5;
-    alert("hey!");
-  }, 3000);
-}
 
 function getForecast(lat, lon) {
 
@@ -62,6 +52,17 @@ function getForecast(lat, lon) {
   });
 }
 
+function cycleAOSCams() {
+  var cameras = ["north", "east", "south", "west", "northwest"];
+  var i = 0;
+
+  setInterval(function() {
+    url= "http://f5.aos.wisc.edu/webcam_movies/latest_" + cameras[i] + "_320x240.jpg"
+    $("#aos").attr("src", url);
+    i = (i + 1) % 5;
+  }, 3000);
+}
+
 function windDir(deg) {
   if (deg >= 337.5 || deg < 22.5) {
     return "N";
@@ -81,4 +82,3 @@ function windDir(deg) {
     return "NW";
   }
 }
-
