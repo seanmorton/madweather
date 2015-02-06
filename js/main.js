@@ -14,7 +14,7 @@ function getCurrentConditions() {
     var loc = json.name + ", " + json.sys.country;
     var icon = json.weather[0].icon + ".png";
     var temp = Math.round(json.main.temp) + "&degF"; 
-    var desc = "wow " + json.weather[0].description;
+    var desc = json.weather[0].description;
     var wind = windDir(json.wind.deg) + " " +  Math.round(json.wind.speed) + " MPH";
 
     $("#location").html(loc); 
