@@ -1,5 +1,6 @@
 $(document).ready(function() {
 
+  var doges = ["wow", "such", "so", "very", "much", "many"]
   var lat = "43.14";
   var lon = "-89.35";
   var url = "http://api.openweathermap.org/data/2.5/weather?units=imperial&mode=js&lat=" + lat + "&lon=" + lon;
@@ -12,7 +13,7 @@ $(document).ready(function() {
 
     $("#location").html(loc); 
     $("#temp").html(temp);
-    $("#desc").html(desc);
+    $("#desc").html(desc.toLowerCase());
     $("#wind").html(wind);
   }); 
 
@@ -35,13 +36,14 @@ $(document).ready(function() {
 
       $("#" + i + "-day").html(weekday[(today.getDay() + i) % 7]); 
       $("#" + i + "-temp").html(temp); 
-      $("#" + i + "-desc").html(desc); 
+      $("#" + i + "-desc").html(desc.toLowerCase()); 
     }
   });
 });
 
-function KtoF(temp) {
-  return Math.round((temp - 273.15) * 9 / 5 + 32); 
+function randomEle(arr){
+  var randomIndex = Math.floor(Math.random() * arr.length);
+  return arr[randomIndex];
 }
 
 function windDir(deg) {
