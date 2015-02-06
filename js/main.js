@@ -1,49 +1,52 @@
-$(document).ready(function() {
+$(function() {
 
-  var doges = ["wow", "such", "so", "very", "much", "many"]
+  // hard code to Madison for now
   var lat = "43.14";
   var lon = "-89.35";
+
+  setInterval(getCurrentConditions(lat, lon), 900000);
+  setInterval(getForecast(lat, lon), 900000);
+
+});
+
+function getCurrentConditions(lat, lon) {
+  
   var url = "http://api.openweathermap.org/data/2.5/weather?units=imperial&mode=js&lat=" + lat + "&lon=" + lon;
 
   $.getJSON(url, function(json) {
     var loc = json.name + ", " + json.sys.country;
+    var icon = json.weather[0].icon + ".png";
     var temp = Math.round(json.main.temp) + "&degF"; 
     var desc = "wow " + json.weather[0].description;
-    var wind = Math.round(json.wind.speed) + " MPH " + windDir(json.wind.deg);
+    var wind = windDir(json.wind.deg) + " " +  Math.round(json.wind.speed) + " MPH";
 
     $("#location").html(loc); 
+    $("#icon").attr("src", "./images/icons/" + icon);
     $("#temp").html(temp);
     $("#desc").html(desc.toLowerCase());
     $("#wind").html(wind);
   }); 
+}
 
-  url = "http://api.openweathermap.org/data/2.5/forecast/daily?units=imperial&mode=js&lat=" + lat + "&lon=" + lon;
+function getForecast(lat, lon) {
 
+  var url = "http://api.openweathermap.org/data/2.5/forecast/daily?units=imperial&mode=js&lat=" + lat + "&lon=" + lon;
   var today = new Date();
-  var weekday = new Array(7);
-  weekday[0]=  "Sunday";
-  weekday[1] = "Monday";
-  weekday[2] = "Tuesday";
-  weekday[3] = "Wednesday";
-  weekday[4] = "Thursday";
-  weekday[5] = "Friday";
-  weekday[6] = "Saturday";
+  var weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]; 
 
   $.getJSON(url, function(json) {
     for (i = 0; i < 5; i++) {
-      var temp = Math.round(json.list[i].temp.day) + "&degF";
-      var desc = "such " + json.list[i].weather[0].description;
+      var icon = json.list[i].weather[0].icon + ".png";
+      var high = Math.round(json.list[i].temp.max) + "&degF";
+      var low = Math.round(json.list[i].temp.min) + "&degF";
+      var desc = json.list[i].weather[0].description;
 
-      $("#" + i + "-day").html(weekday[(today.getDay() + i) % 7]); 
-      $("#" + i + "-temp").html(temp); 
+      $("#" + i + "-day").html(weekdays[(today.getDay() + i) % 7]); 
+      $("#" + i + "-icon").attr("src", "./images/icons/" + icon);
+      $("#" + i + "-temp").html(high + " / " + low); 
       $("#" + i + "-desc").html(desc.toLowerCase()); 
     }
   });
-});
-
-function randomEle(arr){
-  var randomIndex = Math.floor(Math.random() * arr.length);
-  return arr[randomIndex];
 }
 
 function windDir(deg) {
