@@ -6,6 +6,7 @@ $(function() {
 
   setInterval(getCurrentConditions(lat, lon), 900000);
   setInterval(getForecast(lat, lon), 900000);
+  cycleAOSCams();
 
 });
 
@@ -26,6 +27,18 @@ function getCurrentConditions(lat, lon) {
     $("#desc").html(desc.toLowerCase());
     $("#wind").html(wind);
   }); 
+}
+
+function cycleAOSCams() {
+  var cameras = ["north", "east", "south", "west", "northwest"];
+  var i = 0;
+
+  setInterval(function() {
+    url= "http://f5.aos.wisc.edu/webcam_movies/latest_" + cameras[i] + "_320x240.jpg"
+    $("#aos").attr("src", url);
+    i = (i + 1) % 5;
+    alert("hey!");
+  }, 3000);
 }
 
 function getForecast(lat, lon) {
