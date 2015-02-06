@@ -1,18 +1,14 @@
 $(function() {
 
-  // hard code to Madison for now
-  var lat = "43.14";
-  var lon = "-89.35";
-
-  setInterval(getCurrentConditions(lat, lon), 900000);
-  setInterval(getForecast(lat, lon), 900000);
+  setInterval(getCurrentConditions(), 900000);
+  setInterval(getForecast(), 900000);
   cycleAOSCams();
 
 });
 
-function getCurrentConditions(lat, lon) {
+function getCurrentConditions() {
   
-  var url = "http://api.openweathermap.org/data/2.5/weather?units=imperial&mode=js&lat=" + lat + "&lon=" + lon;
+  var url = "http://api.openweathermap.org/data/2.5/weather?id=5261457&units=imperial&mode=js"
 
   $.getJSON(url, function(json) {
     var loc = json.name + ", " + json.sys.country;
@@ -31,9 +27,9 @@ function getCurrentConditions(lat, lon) {
 
 
 
-function getForecast(lat, lon) {
+function getForecast() {
 
-  var url = "http://api.openweathermap.org/data/2.5/forecast/daily?units=imperial&mode=js&lat=" + lat + "&lon=" + lon;
+  var url = "http://api.openweathermap.org/data/2.5/forecast/daily?id=5261457&units=imperial&mode=js"
   var today = new Date();
   var weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]; 
 
