@@ -8,20 +8,26 @@ $(function() {
 
 function getCurrentConditions() {
   
-  var url = "http://api.openweathermap.org/data/2.5/weather?id=5261457&units=imperial&mode=js"
+  var url = "http://api.wunderground.com/api/6e9aa946c05091e4/conditions/q/WI/Madison.json"
 
   $.getJSON(url, function(json) {
-    var loc = json.name + ", " + json.sys.country;
-    var icon = json.weather[0].icon + ".png";
-    var temp = Math.round(json.main.temp) + "&degF"; 
-    var desc = json.weather[0].description;
-    var wind = windDir(json.wind.deg) + " " +  Math.round(json.wind.speed) + " MPH";
+    var loc = json.current_observation.display_location.full 
+    var icon = json.current_observation.icon_url
+    var temp = Math.round(json.current_observation.temp_f) + "&degF"; 
+    var desc = json.current_observation.weather
+    var wind = json.current_observation.wind_dir + " " +  Math.round(json.current_observation.wind_mph) + "/" + Math.round(json.current_observation.wind_gust_mph) + " MPH";
+    var windchill = "windchill: " + Math.round(json.current_observation.windchill_f) + "&degF";
+    var visibility = "visibility: " + json.current_observation.visibility_mi + " miles";
+    var updated = "updated: " + json.current_observation.observation_time.slice(-12, -4);
 
     $("#location").html(loc); 
-    $("#icon").attr("src", "./images/icons/" + icon);
+    $("#icon").attr("src", icon);
     $("#temp").html(temp);
     $("#desc").html(desc.toLowerCase());
     $("#wind").html(wind);
+    $("#windchill").html(windchill);
+    $("#visibility").html(visibility);
+    $("#updated").html(updated);
   }); 
 }
 
@@ -57,24 +63,4 @@ function cycleAOSCams() {
     $("#aos").attr("src", url);
     i = (i + 1) % 5;
   }, 3000);
-}
-
-function windDir(deg) {
-  if (deg >= 337.5 || deg < 22.5) {
-    return "N";
-  } else if (deg >= 22.5 && deg < 67.5) {
-    return "NE";
-  } else if (deg >= 67.5 && deg < 112.5) {
-    return "E";
-  } else if (deg >= 112 && deg < 157.5) {
-    return "SE";
-  } else if (deg >= 157.5 && deg < 202.5) {
-    return "S";
-  } else if (deg >= 202.5 && deg < 247.5) {
-    return "SW";
-  } else if (deg >= 247.5 && deg < 292.5) {
-    return "W";
-  } else if (deg >= 292.5 && deg < 337.5) {
-    return "NW";
-  }
 }
