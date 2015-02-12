@@ -35,21 +35,23 @@ function getCurrentConditions() {
 
 function getForecast() {
 
-  var url = "http://api.openweathermap.org/data/2.5/forecast/daily?id=5261457&units=imperial&mode=js"
-  var today = new Date();
-  var weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]; 
+  var url = "http://api.wunderground.com/api/6e9aa946c05091e4/forecast/q/WI/Madison.json"
 
   $.getJSON(url, function(json) {
-    for (i = 0; i < 5; i++) {
-      var icon = json.list[i].weather[0].icon + ".png";
-      var high = Math.round(json.list[i].temp.max) + "&degF";
-      var low = Math.round(json.list[i].temp.min) + "&degF";
-      var desc = json.list[i].weather[0].description;
+    for (i = 0; i < 4; i++) {
+      var day = json.forecast.simpleforecast.forecastday[i].date.weekday;
+      var icon = json.forecast.simpleforecast.forecastday[i].icon_url;
+      var high = Math.round(json.forecast.simpleforecast.forecastday[i].high.fahrenheit) + "&degF";
+      var low = Math.round(json.forecast.simpleforecast.forecastday[i].low.fahrenheit) + "&degF";
+      var desc = json.forecast.simpleforecast.forecastday[i].conditions;
+      var pop = "precipitation: " + json.forecast.simpleforecast.forecastday[i].pop + "%";
 
-      $("#" + i + "-day").html(weekdays[(today.getDay() + i) % 7]); 
-      $("#" + i + "-icon").attr("src", "./images/icons/" + icon);
+      $("#" + i + "-day").html(day); 
+      $("#" + i + "-icon").attr("src", icon);
       $("#" + i + "-temp").html(high + " / " + low); 
       $("#" + i + "-desc").html(desc.toLowerCase()); 
+      $("#" + i + "-pop").html(pop); 
+      
     }
   });
 }
