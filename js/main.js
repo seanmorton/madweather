@@ -14,6 +14,7 @@ function getCurrentConditions() {
   $.getJSON(url, function(json) {
     var loc = json.current_observation.display_location.full 
     var icon = "./images/icons/" + json.current_observation.icon + ".png";
+    var wun_icon = json.current_observation.image.url;
     var temp = Math.round(json.current_observation.temp_f) + "&degF"; 
     var desc = json.current_observation.weather
     var wind = json.current_observation.wind_dir + " " +  Math.round(json.current_observation.wind_mph) + "/" + Math.round(json.current_observation.wind_gust_mph) + " MPH";
@@ -33,6 +34,7 @@ function getCurrentConditions() {
     $("#precipitation").html(precipitation);
     $("#humidity").html(humidity);
     $("#updated").html(updated);
+    $("#wunderground").attr("src", wun_icon);
   }); 
 }
 
