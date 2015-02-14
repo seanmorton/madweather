@@ -1,7 +1,8 @@
 $(function() {
 
-  setInterval(getCurrentConditions(), 900000);
-  setInterval(getForecast(), 900000);
+  setTimeout(function() { location.reload(); }, 15*60*1000);
+  getCurrentConditions();
+  getForecast();
   cycleAOSCams();
 
 });
@@ -18,6 +19,8 @@ function getCurrentConditions() {
     var wind = json.current_observation.wind_dir + " " +  Math.round(json.current_observation.wind_mph) + "/" + Math.round(json.current_observation.wind_gust_mph) + " MPH";
     var windchill = "windchill: " + Math.round(json.current_observation.windchill_f) + "&degF";
     var visibility = "visibility: " + json.current_observation.visibility_mi + " miles";
+    var precipitation = "precipitation " + json.current_observation.precip_today_in + " in";
+    var humidity = "humidity: " + json.current_observation.relative_humidity;
     var updated = "updated: " + json.current_observation.observation_time.slice(-12, -4);
 
     $("#location").html(loc); 
@@ -27,6 +30,8 @@ function getCurrentConditions() {
     $("#wind").html(wind);
     $("#windchill").html(windchill);
     $("#visibility").html(visibility);
+    $("#precipitation").html(precipitation);
+    $("#humidity").html(humidity);
     $("#updated").html(updated);
   }); 
 }
@@ -46,12 +51,15 @@ function getForecast() {
       var desc = json.forecast.simpleforecast.forecastday[i].conditions;
       var pop = "precipitation: " + json.forecast.simpleforecast.forecastday[i].pop + "%";
 
-      $("#" + i + "-day").html(day); 
+      if (i == 0) {
+        $("#" + i + "-day").html("Today"); 
+      } else {
+        $("#" + i + "-day").html(day); 
+      }
       $("#" + i + "-icon").attr("src", icon);
       $("#" + i + "-temp").html(high + " / " + low); 
       $("#" + i + "-desc").html(desc.toLowerCase()); 
       $("#" + i + "-pop").html(pop); 
-      
     }
   });
 }
