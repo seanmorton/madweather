@@ -52,6 +52,9 @@ function getForecast() {
       var low = Math.round(json.forecast.simpleforecast.forecastday[i].low.fahrenheit) + "&degF";
       var desc = json.forecast.simpleforecast.forecastday[i].conditions;
       var pop = "precipitation: " + json.forecast.simpleforecast.forecastday[i].pop + "%";
+      var snow = json.forecast.simpleforecast.forecastday[i].snow_allday.in;
+      if (snow > 0)
+        pop += " (" + snow + "in)";
 
       if (i == 0) {
         $("#" + i + "-day").html("Today"); 
