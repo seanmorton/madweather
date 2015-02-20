@@ -9,7 +9,7 @@ $(function() {
 });
 
 $(window).resize(function() {
-  setTimeout(setupWindAlert, 3*1000);
+  setTimeout(setupWindAlert, 1000);
 });
 
 function getCurrentConditions() {
