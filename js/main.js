@@ -3,8 +3,13 @@ $(function() {
   setTimeout(function() { location.reload(); }, 15*60*1000);
   getCurrentConditions();
   getForecast();
+  setupWindAlert();
   cycleAOSCams();
 
+});
+
+$(window).resize(function() {
+  setTimeout(setupWindAlert, 3*1000);
 });
 
 function getCurrentConditions() {
@@ -67,6 +72,14 @@ function getForecast() {
       $("#" + i + "-pop").html(pop); 
     }
   });
+}
+
+function setupWindAlert() {
+  var widget = $("#windalert");
+  var parentWidth = widget.parent().width();
+  var url = "http://widgets.windalert.com/widgets/web/forecastTable?spot_id=1200&units_wind=mph&units_height=ft&units_temp=F&days=4&width=" + parentWidth + "&height=195&color=870100&app=windalert";
+  
+  widget.attr("src", url)
 }
 
 function cycleAOSCams() {
