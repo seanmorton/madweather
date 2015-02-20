@@ -3,6 +3,7 @@ $(function() {
   setTimeout(function() { location.reload(); }, 15*60*1000);
   getCurrentConditions();
   getForecast();
+  getAlerts();
   setupWindAlert();
   cycleAOSCams();
 
@@ -74,10 +75,36 @@ function getForecast() {
   });
 }
 
+function getAlerts() {
+
+  var url = "http://api.wunderground.com/api/6e9aa946c05091e4/alerts/q/WI/Madison.json"
+
+  $.getJSON(url, function(json) {
+    var numAlerts = json.response.features.alerts;
+    if (numAlerts > 0) {
+      var desc = json.alerts[0].description;
+      var expires = "Expires: " + json.alerts[0].expires;
+      var message = json.alerts[0].message;
+
+      if (message.length > 300) {
+        message = message.substring(0, 300) + "...";    
+      }
+
+      $("#alert-description").html(desc);
+      $("#alert-expires").html(expires);
+      $("#alert-message").html(message); 
+
+    } else { 
+      $("#alert-description").html("No Alerts");
+      $("#alert-message").html("There are currently no alerts in your area."); 
+    }
+  });
+}
+
 function setupWindAlert() {
   var widget = $("#windalert");
   var parentWidth = widget.parent().width();
-  var url = "http://widgets.windalert.com/widgets/web/forecastTable?spot_id=1200&units_wind=mph&units_height=ft&units_temp=F&days=4&width=" + parentWidth + "&height=195&color=870100&app=windalert";
+  var url = "http://widgets.windalert.com/widgets/web/forecastTable?spot_id=1200&units_wind=mph&units_height=ft&units_temp=F&days=4&width=" + parentWidth + "&height=275&color=870100&app=windalert";
   
   widget.attr("src", url)
 }
